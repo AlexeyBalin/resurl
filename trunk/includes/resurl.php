@@ -56,6 +56,8 @@ class resURL
 			$url_key = new Rediska_Key(sha1($url));
 			$id_key->setValue( $url );
 			$url_key->setValue( $id );
+			$id_list = new Rediska_Key_List('ids_list');
+			$id_list[] = $id;
 			return true;
 		}
 	}
