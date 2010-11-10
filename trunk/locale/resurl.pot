@@ -1,0 +1,48 @@
+# Translation files for resURL project
+# Copyright (C) 2010 Alexey Balin
+# This file is distributed under GPL v2  as the resURL package.
+# Alexey Balin <alex.balin@gmail.com>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-09 22:16+0500\n"
+"PO-Revision-Date: 2010-11-09 22:16+0500\n"
+"Last-Translator: Alexey Balin <alex.balin@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: index.php:51
+msgid "Blacklisted URL!"
+msgstr ""
+
+#: index.php:64
+msgid "Short URL is:"
+msgstr ""
+
+#: index.php:68
+msgid "Invalid protocol!"
+msgstr ""
+
+#: index.php:72
+msgid "Creation of your li8 url failed for some reason."
+msgstr ""
+
+#: index.php:201
+msgid "Enter a long URL:"
+msgstr ""
+
+#: index.php:203
+msgid "Make it an ur1!"
+msgstr ""
+
+#: index.php:209
+msgid ""
+"<a href=\"http://li8.ru/\">li8</a> is an Open Service from <a href=\"http://"
+"fasqu.com/\">FASQu Inc.</a>, powered by <a href=\"http://li8.ru/2\">resURL</"
+"a>. Code is based on <a href=\"http://ur1.ca\">ur1.ca</a>."
+msgstr ""
