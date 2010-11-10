@@ -7,8 +7,11 @@
 2. Set up mod_rewrite, if necessary
 
       (( a .htaccess file with the lines:
-...
+
+`
          RewriteEngine On
+
          RewriteRule (.*) index.php
-...
+`
+
         should suffice ))
