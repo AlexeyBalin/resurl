@@ -16,40 +16,48 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: index.php:54
+#: index.php:58
 msgid "Blacklisted URL!"
 msgstr "Ваш URL в черном списке!"
 
-#: index.php:67
+#: index.php:71
 msgid "Short URL is:"
 msgstr "Короткий URL:"
 
-#: index.php:71
+#: index.php:75
 msgid "Invalid protocol!"
 msgstr "Неверный протокол"
 
-#: index.php:75
+#: index.php:79
 msgid "Creation of your li8 url failed for some reason."
 msgstr "Не удалось создать короткий URL"
 
-#: index.php:124
+#: index.php:125 index.php:132
 msgid "Short URL Generator"
 msgstr "Создать короткий URL"
 
-#: index.php:204
+#: index.php:139
 msgid "Enter a long URL:"
 msgstr "Ввдеите полный URL:"
 
-#: index.php:206
+#: index.php:141
 msgid "Make Short URL!"
 msgstr "Создать короткий URL"
 
-#: index.php:212
+#: index.php:146
+msgid "Top viewed sites"
+msgstr "Самые просмотриваемые URL"
+
+#: index.php:152
+msgid "Views:"
+msgstr "Просмотров:"
+
+#: index.php:159
 msgid ""
 "<a href=\"http://li8.ru/\">li8</a> is an Open Service from <a href=\"http://"
 "fasqu.com/\">FASQu Inc.</a>, powered by <a href=\"http://li8.ru/2\">resURL</"
-"a>. Code is based on <a href=\"http://ur1.ca\">ur1.ca</a>."
+"a>. Code is based on <a href=\"http://lilurl.sourceforge.net/\">lilURL</a>."
 msgstr ""
 "<a href=\"http://li8.ru/\">li8</a> это бесплатный сервис от <a href=\"http://"
 "fasqu.com/\">Экспертного поиска FASQu</a>. <br />Работает на <a href=\"http://li8.ru/2\">resURL</"
-"a>. Код основан на <a href=\"http://ur1.ca\">ur1.ca</a>."
+"a>. Код основан на <a href=\"http://lilurl.sourceforge.net/\">lilURL</a>."

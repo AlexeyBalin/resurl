@@ -174,6 +174,45 @@ class resURL
 			$id_views_key->increment();		
 	}
 	
+	function get_top_sites( $limit = 10, $offset = 0) 
+	{
+		//Execute command: "sort ids_list BY "resurl_*:Views" LIMIT 0 10  DESC"
+		//List key name
+		$key = 'ids_list';
+		//Options to sort
+		$_options = array(
+					'order' => "DESC",
+					'limit' => $limit,
+					'offset' => $offset,
+					'alpha' => false,
+					'by' => "*:Views",
+					'get' => null,
+					'store' => null
+		);
+		//Execute sort
+		$results = $this->rediska->sort($key, $_options);
+		
+		
+		//Prepare returns var
+		$return = array();
+		$view_keys = array();
+		foreach( $results as $i => $id ) {
+			$view_keys[] = "$id:Views";
+			$return[$id]['position'] = $i;
+		}		
+
+		
+		$urls = $this->rediska->get($results);
+		$views = $this->rediska->get($view_keys);
+		
+		foreach( $urls as $id => $url ) {
+			$return[$id]['url'] = $url;
+			$return[$id]['views'] = $views[$id.':Views'];
+		}
+		
+		return $return;
+	}
+
 
 }
 

@@ -1,27 +1,31 @@
 <?php /* index.php ( resURL implementation ) */
 ini_set("default_charset", "UTF-8");
-set_include_path(get_include_path().":".$_SERVER['INCLUDE_PATH']);
-
 
 require_once 'includes/conf.php'; // <- site-specific settings
 require_once 'includes/resurl.php'; // <- resURL class file
-
 require_once 'Net/DNSBL/SURBL.php'; // <- URL blacklisting
 
-setlocale(LC_MESSAGES, 'ru_RU');
-$domain = "resurl";
-
-bindtextdomain($domain, "./locale");
-textdomain($domain);
-
+if( $language[0] != 'en' ) {
+    switch( $language[0] ) {
+	case "ru":
+	    putenv('LC_ALL=ru_RU');
+	    setlocale(LC_MESSAGES, 'ru_RU');
+	break;
+    }
+    
+    $domain = "resurl";
+    bindtextdomain($domain, "./locale");
+    bind_textdomain_codeset($domain, 'UTF-8');
+    textdomain($domain);
+}
 
 $msg = '';
-
+$resurl = new resURL();
 // if the form has been submitted
 if ( isset($_POST['longurl']) )
 {
 	// This is a write transaction, use the master database
-	$resurl = new resURL();
+
 
 	// escape bad characters from the user's url
 	$longurl = trim(mysql_escape_string($_POST['longurl']));
@@ -79,9 +83,6 @@ if ( isset($_POST['longurl']) )
 else // if the form hasn't been submitted, look for an id to redirect to
 {
 
-	// This is a read transaction, use the slave database
-	$resurl = new resURL();
-
 	if ( isSet($_GET['id']) ) // check GET first
 	{
 		$id = mysql_escape_string($_GET['id']);
@@ -123,74 +124,8 @@ else // if the form hasn't been submitted, look for an id to redirect to
 
 	<head>
 		<title><?php echo _('Short URL Generator'); ?></title>
-		
-		<style type="text/css">
-		body {
-			font: .8em, "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
-			text-align: center;
-			color: #333;
-			background-color: #fff;
-			margin-top: 5em;
-		}
-		
-		h1 {
-			font-size: 2em;
-			padding: 0;
-			margin: 0;
-		}
-
-		form {
-			width: 28em;
-			background-color: #eee;
-			border: 1px solid #ccc;
-			margin-left: auto;
-			margin-right: auto;
-			padding: 1em;
-		}
-
-		fieldset {
-			border: 0;
-			margin: 0;
-			padding: 0;
-		}
-		
-		a {
-			color: #09c;
-			text-decoration: none;
-			font-weight: bold;
-		}
-
-		a:visited {
-			color: #07a;
-		}
-
-		a:hover {
-			color: #c30;
-		}
-
-		.error, .success {
-			font-size: 1.2em;
-			font-weight: bold;
-		}
-		
-		.error {
-			color: #ff0000;
-		}
-		
-		.success {
-			color: #000;
-		}
-		
-		p.license {
-			margin-left: auto;
-			margin-right: auto;
-			font-size: 1em;
-			font-weight: bold;
-			width: 300px;
-		}
-		
-		</style>
-
+		<link rel="stylesheet" type="text/css" href="http://static.fasqu.net/li8.css" />
+		<!-- link rel="stylesheet" type="text/css" href="style.css" / -->
 	</head>
 	
 	<body onload="document.getElementById('longurl').focus()">
@@ -208,9 +143,21 @@ else // if the form hasn't been submitted, look for an id to redirect to
 			</fieldset>
 		
 		</form>
-
+	    <div class="top_sites">
+			<h3><?php echo _('Top viewed sites')?></h3>
+			<ul>
+	    <?php 
+			$top_sites = $resurl->get_top_sites(10);
+			foreach( $top_sites as $id => $site ) {
+				?>
+					<li id="site_<?php echo $id?>"><?php echo '<a target="_blank" href="'.$site['url'].'">'.$site['url'].'</a> '; echo _('Views:'); echo $site['views'];?> </li>
+				<?
+			}
+	    ?>
+			</ul>
+	    </div>
 		<p class="license">
-	          <?php echo  _('<a href="http://li8.ru/">li8</a> is an Open Service from <a href="http://fasqu.com/">FASQu Inc.</a>, powered by <a href="http://li8.ru/2">resURL</a>. Code is based on <a href="http://ur1.ca">ur1.ca</a>.') ?>
+	          <?php echo  _('<a href="http://li8.ru/">li8</a> is an Open Service from <a href="http://fasqu.com/">FASQu Inc.</a>, powered by <a href="http://li8.ru/2">resURL</a>. Code is based on <a href="http://lilurl.sourceforge.net/">lilURL</a>.') ?>
 	        </p>
 	</body>
 </html>
