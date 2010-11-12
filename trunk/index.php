@@ -124,8 +124,7 @@ else // if the form hasn't been submitted, look for an id to redirect to
 
 	<head>
 		<title><?php echo _('Short URL Generator'); ?></title>
-		<link rel="stylesheet" type="text/css" href="http://static.fasqu.net/li8.css" />
-		<!-- link rel="stylesheet" type="text/css" href="style.css" / -->
+		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	
 	<body onload="document.getElementById('longurl').focus()">

@@ -1,8 +1,11 @@
 <?php /* index.php ( resURL implementation ) */
 ini_set("default_charset", "UTF-8");
+//ini_set('error_reporting', E_ALL);
+//ini_set("display_errors", "on");
 
 require_once 'includes/conf.php'; // <- site-specific settings
 require_once 'includes/resurl.php'; // <- resURL class file
+require_once 'Net/DNSBL/SURBL.php'; // <- URL blacklisting
 
 $resurl = new resURL();
 $msg = '';
@@ -33,9 +36,15 @@ if ( isset($_REQUEST['longurl']) )
 	{
 		$protocol_ok = true;
 	}
-		
+
+	$surbl = new Net_DNSBL_SURBL();
+
+	if ($surbl->isListed($longurl))
+	{
+		$msg = '<p class="error">'._('Blacklisted URL!').'</p>';
+	}
 	// add the url to the database
-	if ( $protocol_ok && $resurl->add_url($longurl) )
+	elseif ( $protocol_ok && $resurl->add_url($longurl) )
 	{
 		$id = $resurl->get_id($longurl);
 		if ( REWRITE ) // mod_rewrite style link

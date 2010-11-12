@@ -1,7 +1,8 @@
 <?php /* conf.php ( config file ) */
-set_include_path(get_include_path().":".$_SERVER['INCLUDE_PATH']);
-require_once $_SERVER['INCLUDE_PATH'].'/classes/Rediska.php'; // <- site-specific settings
 
+require_once 'includes/Rediska.php'; 
+
+//get Browser Language
 function getAcceptedLanguage() {
     if( !isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ) {
 	return false;
@@ -28,11 +29,12 @@ function getAcceptedLanguage() {
      return $lang_index;
 } // end of 'getAcceptedLanguage()'
 
+
+// <- site-specific settings
 //Use autodetect, or you can set your language
 $language = getAcceptedLanguage();
 
 $options = array(
-	//'rediska' =>'resurl_',
 	'namespace' => 'resurl_'
 );
 $rediska = new Rediska($options);
