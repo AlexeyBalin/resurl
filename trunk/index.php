@@ -105,6 +105,7 @@ else // if the form hasn't been submitted, look for an id to redirect to
 		if ( $location != -1 )
 		{
 			header('Location: '.$location);
+			exit();
 		}
 		else
 		{
@@ -128,11 +129,15 @@ else // if the form hasn't been submitted, look for an id to redirect to
 	</head>
 	
 	<body onload="document.getElementById('longurl').focus()">
-		
+	    <div id="header">
+		<img src="/li8ru.png" style="width:125px;height:55px;float:left;vertical-align:baseline;" />
 		<h1><?php echo _('Short URL Generator'); ?></h1>
+		<br style="clear: both" />
 		
 		<?php echo $msg; ?>
 		
+	    </div>
+		<br style="clear: both" />
 		<form action="/" method="post">
 		
 			<fieldset>
@@ -142,22 +147,40 @@ else // if the form hasn't been submitted, look for an id to redirect to
 			</fieldset>
 		
 		</form>
-	    <div class="top_sites">
+		
+		<br />
+		<div id="banner">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-1492774486618114";
+/* li8 728&#42;90 */
+google_ad_slot = "9318323210";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+		</div>
+		<div id="top_sites">
 			<h3><?php echo _('Top viewed sites')?></h3>
 			<ul>
 	    <?php 
 			$top_sites = $resurl->get_top_sites(10);
 			foreach( $top_sites as $id => $site ) {
+				$urs = parse_url($site['url']);
 				?>
-					<li id="site_<?php echo $id?>"><?php echo '<a target="_blank" href="'.$site['url'].'">'.$site['url'].'</a> '; echo _('Views:'); echo $site['views'];?> </li>
+					<li id="site_<?php echo $id?>"><?php echo '<a target="_blank" href="'.$site['url'].'">'.$urs['host'].substr($urs['path'],0, 5).'...'.substr($urs['path'],-4).'</a> '; echo _('Views:'); echo $site['views'];?> </li>
 				<?
 			}
 	    ?>
 			</ul>
-	    </div>
+		</div>
+
 		<p class="license">
 	          <?php echo  _('<a href="http://li8.ru/">li8</a> is an Open Service from <a href="http://fasqu.com/">FASQu Inc.</a>, powered by <a href="http://li8.ru/2">resURL</a>. Code is based on <a href="http://lilurl.sourceforge.net/">lilURL</a>.') ?>
 	        </p>
+	    
 	</body>
 </html>
 		

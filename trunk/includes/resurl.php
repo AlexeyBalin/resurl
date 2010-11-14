@@ -168,10 +168,23 @@ class resURL
 	
 	//Count views for $id
 	function increment_views($id) 
-	{
-			//add increment for count views
-			$id_views_key = new Rediska_Key($id.":Views");
-			$id_views_key->increment();		
+	{	
+			// If request method is GET only
+			if( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
+				//add increment for count views
+				$id_views_key = new Rediska_Key($id.":Views");
+				$id_views_key->increment();
+				$id_views_key_today = new Rediska_Key($id.":Views:".date("Ymd") );
+				$new = $id_views_key_today->increment();
+				//if( $new == 1 ) {
+				//	$id_views_key_today->expire(strtotime("+1 month"), true);
+				//}
+			}
+	}
+	
+	function get_url_views($id) {
+		$view_key = new Rediska_Key($id.":Views");
+		return $view_key->getValue();
 	}
 	
 	function get_top_sites( $limit = 10, $offset = 0) 
@@ -185,7 +198,7 @@ class resURL
 					'limit' => $limit,
 					'offset' => $offset,
 					'alpha' => false,
-					'by' => "*:Views",
+					'by' => "*:Views:".date("Ymd"),
 					'get' => null,
 					'store' => null
 		);
@@ -197,7 +210,7 @@ class resURL
 		$return = array();
 		$view_keys = array();
 		foreach( $results as $i => $id ) {
-			$view_keys[] = "$id:Views";
+			$view_keys[] = "$id:Views:".date("Ymd");
 			$return[$id]['position'] = $i;
 		}		
 
@@ -207,13 +220,13 @@ class resURL
 		
 		foreach( $urls as $id => $url ) {
 			$return[$id]['url'] = $url;
-			$return[$id]['views'] = $views[$id.':Views'];
+			$return[$id]['views'] = $views[$id.':Views:'.date("Ymd")];
 		}
-		
+		//var_dump($return);
 		return $return;
 	}
 
-
+	
 }
 
 ?>

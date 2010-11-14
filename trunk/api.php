@@ -41,30 +41,41 @@ if ( isset($_REQUEST['longurl']) )
 
 	if ($surbl->isListed($longurl))
 	{
-		$msg = '<p class="error">'._('Blacklisted URL!').'</p>';
+		echo 'Blacklisted URL!';
+		exit();
 	}
 	// add the url to the database
 	elseif ( $protocol_ok && $resurl->add_url($longurl) )
 	{
 		$id = $resurl->get_id($longurl);
-		if ( REWRITE ) // mod_rewrite style link
-		{
-			$url = 'http://'.$_SERVER['HTTP_HOST'].'/'.$id;
-		}
-		else // regular GET style link
-		{
-			$url = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?id='.$id;
-		}
-		if( $_REQUEST['format'] == 'json' ) {
-		    $response = json_encode( array('url' => $url) );
-		    if( isset($_REQUEST['callback']) ) {
-			echo $_REQUEST['callback']."(".$response.")";
-		    }else{
-			echo $response;
-		    }
+		//If client request stats
+		if( $_REQUEST['mode']  == 'stats' ) {
+			$key = "stats";
+			$response = $resurl->get_url_views($id);
 		} else {
-		    echo $url;
+			$key = "url";
+			if ( REWRITE ) // mod_rewrite style link
+			{
+				$response = 'http://'.$_SERVER['HTTP_HOST'].'/'.$id;
+			}
+			else // regular GET style link
+			{
+				$response = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?id='.$id;
+			}
 		}
+		
+
+		if( $_REQUEST['format'] == 'json' ) {
+			$response = json_encode( array($key => $response) );
+			if( isset($_REQUEST['callback']) ) {
+				echo $_REQUEST['callback']."(".$response.")";
+			}else{
+				echo $response;
+			}
+		} else {
+				echo $response;
+		}
+		
 		exit();
 	}
 	elseif ( !$protocol_ok )
